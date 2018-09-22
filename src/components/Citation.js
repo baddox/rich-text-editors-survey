@@ -4,27 +4,40 @@ import { withState } from 'recompose';
 
 const CitationWrapper = styled.span`
   background-color: ${({ highlighted }) =>
-    highlighted ? 'paleturquoise' : 'unset'};
+    highlighted ? 'paleturquoise' : 'none'};
 `;
 
 const CitationMarker = styled.span`
-  margin-left: 5px;
   cursor: pointer;
-  background-color: paleturquoise;
-  padding: 0 2px;
+  padding: 0px 1px;
+  font-size: 80%;
+  border: 1px solid silver;
+  border-radius: 20%;
+  margin-left: 1px;
+  position: relative;
+  top: -5px;
+  letter-spacing: 0.5px;
+  color: #555;
 `;
 
-const Citation = ({ highlighted, setHighlighted, markerLabel, children }) => {
+const Citation = ({
+  highlighted,
+  setHighlighted,
+  label,
+  onClickMarker,
+  children,
+}) => {
   return (
-    <CitationWrapper highlighted={highlighted}>
-      {children}
+    <span>
+      <CitationWrapper highlighted={highlighted}>{children}</CitationWrapper>
       <CitationMarker
         onMouseEnter={() => setHighlighted(true)}
         onMouseLeave={() => setHighlighted(false)}
+        onClick={onClickMarker ? onClickMarker : () => {}}
       >
-        [{markerLabel}]
+        {label}
       </CitationMarker>
-    </CitationWrapper>
+    </span>
   );
 };
 
