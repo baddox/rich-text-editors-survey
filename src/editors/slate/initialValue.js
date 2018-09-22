@@ -11,11 +11,19 @@ const INITIAL_VALUE = Value.fromJSON({
           {
             object: 'text',
             leaves: [
+              { object: 'leaf', text: 'This is a paragraph ', marks: [] },
               {
                 object: 'leaf',
-                text: 'This is a paragraph with some ',
-                marks: [],
+                text: 'with',
+                marks: [{ object: 'mark', type: 'bold', data: {} }],
               },
+              { object: 'leaf', text: ' ', marks: [] },
+              {
+                object: 'leaf',
+                text: 'some',
+                marks: [{ object: 'mark', type: 'bold', data: {} }],
+              },
+              { object: 'leaf', text: ' ', marks: [] },
               {
                 object: 'leaf',
                 text: 'bold',
@@ -40,10 +48,17 @@ const INITIAL_VALUE = Value.fromJSON({
           {
             object: 'text',
             leaves: [
+              { object: 'leaf', text: 'T', marks: [] },
               {
                 object: 'leaf',
-                text: 'This is another paragraph with ',
-                marks: [],
+                text: 'h',
+                marks: [{ object: 'mark', type: 'bold', data: {} }],
+              },
+              { object: 'leaf', text: 'is is another ', marks: [] },
+              {
+                object: 'leaf',
+                text: 'paragraph with ',
+                marks: [{ object: 'mark', type: 'bold', data: {} }],
               },
             ],
           },
@@ -55,7 +70,12 @@ const INITIAL_VALUE = Value.fromJSON({
               {
                 object: 'text',
                 leaves: [
-                  { object: 'leaf', text: 'an inline citation', marks: [] },
+                  {
+                    object: 'leaf',
+                    text: 'an inline',
+                    marks: [{ object: 'mark', type: 'bold', data: {} }],
+                  },
+                  { object: 'leaf', text: ' citation', marks: [] },
                 ],
               },
             ],
@@ -63,7 +83,13 @@ const INITIAL_VALUE = Value.fromJSON({
           {
             object: 'text',
             leaves: [
-              { object: 'leaf', text: ' and some other stuff.', marks: [] },
+              { object: 'leaf', text: ' and some other ', marks: [] },
+              {
+                object: 'leaf',
+                text: 'stuff',
+                marks: [{ object: 'mark', type: 'bold', data: {} }],
+              },
+              { object: 'leaf', text: '.', marks: [] },
             ],
           },
         ],

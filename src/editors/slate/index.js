@@ -1,9 +1,9 @@
 import React from 'react';
 import { Editor } from 'slate-react';
-import { withState } from 'recompose';
+import { withState, compose } from 'recompose';
 import EditorBody from '../../components/EditorBody';
-import { SlateParagraph, SlateCitation } from './components';
-import Bold from '../../components/Bold';
+import { SlateParagraph } from './components';
+import { BoldConnected } from '../../components/Bold';
 import Underline from '../../components/Underline';
 import INITIAL_VALUE from './initialValue';
 import EditorToolbar from '../../components/EditorToolbar';
@@ -13,9 +13,11 @@ import {
   renderCitation,
   hasCitation,
 } from './citation';
+import Paragraph from '../../components/Paragraph';
+import { connect } from 'react-redux';
+import { setHovered } from '../../App';
 
 const renderNode = props => {
-  console.log({ props });
   const {
     node: { type },
     attributes,
@@ -31,8 +33,10 @@ const renderNode = props => {
 
 const renderMark = props => {
   switch (props.mark.type) {
-    case 'bold':
-      return <Bold {...props} />;
+    case 'bold': {
+      const highlight = props.editor.value.data.get('highlight');
+      return <BoldConnected {...props} highlight={!highlight} />;
+    }
     case 'underline':
       return <Underline {...props} />;
   }
@@ -55,22 +59,28 @@ const onKeyDown = (event, change) => {
   }
 };
 
-const Slate = ({ state, onChange }) => {
+const Slate = ({ state, onChange, hovered, dispatch }) => {
+  const value = state.value.setIn(['data', 'highlight'], hovered);
   return (
     <div>
       <EditorToolbar
         bold={{}}
         underline={{}}
         cite={{
-          active: hasCitation(state.value),
-          onClick: event => onClickCitation(event, state.value, onChange),
+          active: hasCitation(value),
+          onClick: event => onClickCitation(event, value, onChange),
         }}
       />
+      <Paragraph>
+        <span onClick={() => dispatch(setHovered(!hovered))}>
+          <input type="checkbox" checked={hovered} /> highlight{' '}
+          {hovered && 'YES'}
+        </span>
+      </Paragraph>
       <EditorBody>
         <Editor
-          value={state.value}
+          value={value}
           onChange={({ value }) => {
-            console.log(value);
             onChange({ value });
           }}
           renderNode={renderNode}
@@ -84,6 +94,9 @@ const Slate = ({ state, onChange }) => {
 
 export default Slate;
 
-export const SlateStateful = withState('state', 'onChange', {
-  value: INITIAL_VALUE,
-})(Slate);
+export const SlateStateful = compose(
+  withState('state', 'onChange', {
+    value: INITIAL_VALUE,
+  }),
+  connect(hovered => ({ hovered }))
+)(Slate);

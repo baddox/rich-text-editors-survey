@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withState } from 'recompose';
+import withHover from '../util/withHover';
 
 const CitationWrapper = styled.span`
   background-color: ${({ highlighted }) =>
-    highlighted ? 'paleturquoise' : 'none'};
+    highlighted ? 'rgba(0, 100, 200, 0.25)' : 'none'};
 `;
 
 const CitationMarker = styled.span`
@@ -21,19 +21,20 @@ const CitationMarker = styled.span`
 `;
 
 const Citation = ({
-  highlighted,
-  setHighlighted,
+  hovered,
+  hoverProps,
   label,
   onClickMarker,
   children,
+  ...rest
 }) => {
+  // return <span {...rest}>{children}</span>;
   return (
-    <span>
-      <CitationWrapper highlighted={highlighted}>{children}</CitationWrapper>
+    <span {...rest}>
+      <CitationWrapper highlighted={hovered}>{children}</CitationWrapper>
       <CitationMarker
-        onMouseEnter={() => setHighlighted(true)}
-        onMouseLeave={() => setHighlighted(false)}
         onClick={onClickMarker ? onClickMarker : () => {}}
+        {...hoverProps}
       >
         {label}
       </CitationMarker>
@@ -43,8 +44,4 @@ const Citation = ({
 
 export default Citation;
 
-export const CitationStateful = withState(
-  'highlighted',
-  'setHighlighted',
-  false
-)(Citation);
+export const CitationStateful = withHover(Citation);
