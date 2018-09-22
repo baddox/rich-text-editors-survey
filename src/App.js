@@ -1,21 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import EditorBody from './components/EditorBody';
+import Paragraph from './components/Paragraph';
+import Bold from './components/Bold';
+import Italic from './components/Italic';
+import { CitationStateful } from './components/Citation';
+import EditorToolbar from './components/EditorToolbar';
+import Button from './components/Button';
+import EditorToolbarButton from './components/EditorToolbarButton';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <div>
+      <h1>A Survey of Rich Text Editors</h1>
+      <EditorToolbar>
+        <EditorToolbarButton active>bold</EditorToolbarButton>
+        <EditorToolbarButton disabled>italic</EditorToolbarButton>
+      </EditorToolbar>
+      <EditorBody>
+        <Paragraph>
+          This is a paragraph with some <Bold>bold</Bold> and{' '}
+          <Italic>italic</Italic> text.
+        </Paragraph>
+        <Paragraph>
+          This is another paragraph with{' '}
+          <CitationStateful markerLabel="1">
+            an inline citation
+          </CitationStateful>{' '}
+          and some other stuff.
+        </Paragraph>
+      </EditorBody>
+    </div>
+  );
+};
 
 export default App;
